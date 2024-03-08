@@ -13,6 +13,8 @@ class FileStorage:
         """Returns a dictionary of models currently in storage"""
         if cls is None:
             return FileStorage.__objects
+        elif isinstance(cls, tuple):
+            return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
         else:
             return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
 
