@@ -9,20 +9,27 @@ class FileStorage:
     """This class manages storage of hbnb models in JSON format"""
     __file_path = 'file.json'
     __objects = {}
+    CDIC = {
+            'City': city.City,
+            'Place': place.Place,
+            'Review': review.Review,
+            'State': state.State,
+            'Amenity': amenity.Amenity,
+            'User': user.User
+        }
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
-        if cls is None:
-            return FileStorage.__objects
-        elif isinstance(cls, tuple):
-            return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
-        else:
-            if isinstance(cls, str):
-                cls = globals()[cls] # Convert class name string to class object
-            if inspect.isclass(cls) or (isinstance(cls, tuple) and all(inspect.isclass(c) for c in cls)):
-                return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
-            else:
-                raise TypeError("cls must be a type or tuple of types")
+        """Returns a dictionary of models currently in storage
+        if cls specified, only returns that class"""
+        if cls is not None:
+            if cls in self.CDIC.keys():
+                cls = self.CDIC.get(cls)
+            spec_rich = {}
+            for ky, vl in self.__objects.items():
+                if cls == type(vl):
+                    spec_rich[ky] = vl
+            return spec_rich
+        return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
