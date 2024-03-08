@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
+import inspect
 import json
 from models import city, place, review, state, amenity, user, base_model
 
@@ -16,7 +17,10 @@ class FileStorage:
         elif isinstance(cls, tuple):
             return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
         else:
-            return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
+            if inspect.isclass(cls) or (isinstance(cls, tuple) and all(inspect.isclass(c) for c in cls)):
+                return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
+            else:
+                raise TypeError("cls must be a type or tuple of types")
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
