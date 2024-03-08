@@ -61,7 +61,7 @@ class BaseModel:
         """
         cls_nam = self.__class__.__name__
         data = {
-            key: value if type(v) == str else str(v)
+            key: value if type(value) == str else str(value)
             for key, value in self.__dict__.items()
         }
         data.update({
