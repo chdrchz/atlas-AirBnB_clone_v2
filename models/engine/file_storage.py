@@ -25,9 +25,9 @@ class FileStorage:
             if cls in self.CDIC.keys():
                 cls = self.CDIC.get(cls)
             spec_rich = {}
-            for ky, vl in self.__objects.items():
-                if cls == type(vl):
-                    spec_rich[ky] = vl
+            for key, value in self.__objects.items():
+                if cls == type(value):
+                    spec_rich[key] = value
             return spec_rich
         return self.__objects
 
