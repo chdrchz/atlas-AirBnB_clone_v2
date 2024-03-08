@@ -10,7 +10,7 @@ def index():
     return "Hello HBNB!"
 
 @app.route('/hbnb', strict_slashes=False)
-def index():
+def hbnb():
     return "HBNB"
 
 if __name__ == "__main__":
