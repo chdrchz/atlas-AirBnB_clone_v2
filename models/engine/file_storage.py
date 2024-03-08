@@ -17,6 +17,8 @@ class FileStorage:
         elif isinstance(cls, tuple):
             return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
         else:
+            if isinstance(cls, str):
+                cls = globals()[cls] # Convert class name string to class object
             if inspect.isclass(cls) or (isinstance(cls, tuple) and all(inspect.isclass(c) for c in cls)):
                 return {key: obj for key, obj in FileStorage.__objects.items() if isinstance(obj, cls)}
             else:
