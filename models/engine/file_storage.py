@@ -19,9 +19,9 @@ class FileStorage:
         }
 
     def all(self, cls=None):
-    """query on the current database session"""
+        """query on the current database session"""
         new_dict = {}
-        classes = self.CDIC  # Accessing class dictionary from instance variable
+        classes = self.CDIC
         for class_name, class_obj in classes.items():
             if cls is None or cls is class_obj or cls is class_name:
                 objs = self.__session.query(class_obj).all()
