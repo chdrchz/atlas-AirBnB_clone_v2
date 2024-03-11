@@ -19,17 +19,16 @@ class FileStorage:
         }
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage
-        if cls specified, only returns that class"""
-        if cls is not None:
-            if cls in self.CDIC.keys():
-                cls = self.CDIC.get(cls)
-            spec_rich = {}
-            for key, value in self.__objects.items():
-                if cls == type(value):
-                    spec_rich[key] = value
-            return spec_rich
-        return self.__objects
+    """query on the current database session"""
+        new_dict = {}
+        classes = self.CDIC  # Accessing class dictionary from instance variable
+        for class_name, class_obj in classes.items():
+            if cls is None or cls is class_obj or cls is class_name:
+                objs = self.__session.query(class_obj).all()
+                for obj in objs:
+                    key = obj.__class__.__name__ + "." + obj.id
+                    new_dict[key] = obj
+        return new_dict
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
